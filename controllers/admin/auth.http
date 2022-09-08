@@ -1,0 +1,24 @@
+# curl -X POST --location "http://localhost:8090/v1/auth/login"
+#    -H "Content-Type: application/json"
+#    -d "{
+#          \"username\": \"admin\",
+#          \"password\": \"admin123\"
+#        }"
+POST http://localhost:8090/v1/admin/user
+Content-Type: application/json
+
+{
+          "username": "admin",
+          "password": "admin123"
+        }
+
+###
+
+
+POST http://localhost:8090/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "123456"
+}
