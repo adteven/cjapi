@@ -33,8 +33,8 @@ type any = interface{}
 
 type Result struct {
 	Data   interface{} `json:"data"`
-	Msg    string      `json:"msg"`
-	Status int         `json:"status"`
+	Msg    string      `json:"message"`
+	Status int         `json:"code"`
 }
 
 func (c *BaseController) Valid(data any) {

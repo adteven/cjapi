@@ -21,7 +21,6 @@ func (builder *AuthFilter) CheckPermssion(ctx *context.Context) {
 	if strings.Contains(ignoreUrls, url) || strings.Contains(url, "/swagger") || strings.Contains(url, "/static") {
 		return
 	} else {
-
 		mytoken := ctx.Input.Header("Authorization")
 		if len(mytoken) < bearerLength {
 			ctx.Output.Status = 401
@@ -37,6 +36,7 @@ func (builder *AuthFilter) CheckPermssion(ctx *context.Context) {
 				true, true)
 			return
 		}
+		//z这里就是管理员呢的登录验证
 
 		ctx.Input.SetData(common.ContextKeyUserObj, usr)
 		//url排除

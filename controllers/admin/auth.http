@@ -1,3 +1,23 @@
+# curl 'http://localhost:8090/v1/admin/menu'
+#  -H 'sec-ch-ua: "Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"'
+#  -H 'Accept: application/json, text/plain, */*'
+#  -H 'Referer: http://localhost:8084/'
+#  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6MSwiQXZhdGFyIjoiIiwiRW1haWwiOiIiLCJVc2VybmFtZSI6ImFkbWluIiwiUGhvbmUiOiIiLCJOaWNrTmFtZSI6IiIsIlNleCI6IiIsIkRlcHQiOiIiLCJKb2IiOiIiLCJSb2xlcyI6bnVsbCwiZXhwIjoxNjcxMjcwNzI3LCJqdGkiOiIxIiwiaXNzIjoiWXNob3BHbyJ9.HjFCU54clUcbDqZDl-2dELCdOXRZxD0nmLzjFHeKmWk'
+#  -H 'sec-ch-ua-mobile: ?0'
+#  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36'
+#  -H 'sec-ch-ua-platform: "macOS"'
+#  --compressed
+GET http://localhost:8090/v1/admin/menu
+sec-ch-ua: "Chromium";v="104", " Not A;Brand";v="99", "Google Chrome";v="104"
+Accept: application/json, text/plain, */*
+Referer: http://localhost:8084/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJZCI6MSwiQXZhdGFyIjoiIiwiRW1haWwiOiIiLCJVc2VybmFtZSI6ImFkbWluIiwiUGhvbmUiOiIiLCJOaWNrTmFtZSI6IiIsIlNleCI6IiIsIkRlcHQiOiIiLCJKb2IiOiIiLCJSb2xlcyI6bnVsbCwiZXhwIjoxNjcxMjcwNzI3LCJqdGkiOiIxIiwiaXNzIjoiWXNob3BHbyJ9.HjFCU54clUcbDqZDl-2dELCdOXRZxD0nmLzjFHeKmWk
+sec-ch-ua-mobile: ?0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.0.0 Safari/537.36
+sec-ch-ua-platform: "macOS"
+
+###
+
 # curl -X POST --location "http://localhost:8090/v1/auth/login"
 #    -H "Content-Type: application/json"
 #    -d "{
@@ -22,3 +42,4 @@ Content-Type: application/json
   "username": "admin",
   "password": "123456"
 }
+

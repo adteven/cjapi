@@ -3,7 +3,6 @@ package controllers
 import (
 	"cjapi/models"
 	"encoding/json"
-
 	beego "github.com/beego/beego/v2/server/web"
 )
 

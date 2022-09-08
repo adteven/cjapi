@@ -9,11 +9,12 @@ package routers
 
 import (
 	"cjapi/controllers/admin"
+	"cjapi/filter"
 	beego "github.com/beego/beego/v2/server/web"
 )
 
 func init() {
-	//af := filter.AuthFilter{}
+	af := filter.AuthFilter{}
 	ns := beego.NewNamespace("/v1",
 		beego.NSNamespace("/auth",
 			beego.NSInclude(
@@ -21,7 +22,7 @@ func init() {
 			),
 		),
 		beego.NSNamespace("/admin",
-			//beego.NSBefore(af.CheckPermssion),
+			beego.NSBefore(af.CheckPermssion),
 			beego.NSNamespace("/user",
 				beego.NSInclude(
 					&admin.SysUserController{},
