@@ -1,9 +1,11 @@
 package admin
 
 import (
+	"cjapi/common/jwt"
 	"cjapi/controllers"
 	"cjapi/models"
 	"encoding/json"
+	"github.com/beego/beego/v2/core/logs"
 )
 
 // SysMenuController operations for SysMenu
@@ -75,6 +77,26 @@ func (c *SysMenuController) GetOne() {
 func (c *SysMenuController) GetAll() {
 	name := c.GetString("blurry")
 	menus := models.GetAllMenus(name)
+	c.Ok(menus)
+}
+
+// @Title 构建菜单
+// @Description 菜单构建 获取进入后的菜单树形结构
+// @Success 200 {object} controllers.Result
+// @router /nav [get]
+func (c *SysMenuController) Nav() {
+	uid, _ := jwt.GetAdminUserId(c.Ctx.Input)
+	logs.Info(uid)
+	menus := models.BuildMenus(uid)
+	c.Ok(menus)
+}
+
+// @Title 获取菜单树
+// @Dsecriptioin 获取菜单的属性结构
+// @Success 200 {object} controllers.Result
+// @router /tree [get]
+func (c *SysMenuController) GetTree() {
+	menus := models.GetAllMenus("")
 	c.Ok(menus)
 }
 

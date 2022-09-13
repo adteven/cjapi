@@ -10,17 +10,19 @@ import (
 )
 
 type SysUser struct {
-	Id       int64  `orm:"column(id);auto" description:"ID"`
-	Avatar   string `orm:"column(avatar);size(200);null" description:"头像"`
-	Email    string `orm:"column(email);size(255);null" description:"邮箱"`
-	Enabled  int8   `orm:"column(enabled);null" description:"状态：1启用、0禁用"`
-	Password string `orm:"column(password);size(255);null" description:"密码"`
-	Username string `orm:"column(username);size(255);null" description:"用户名"`
-	DeptId   int64  `orm:"column(dept_id);null" description:"部门名称"`
-	Phone    string `orm:"column(phone);size(255);null" description:"手机号码"`
-	JobId    int64  `orm:"column(job_id);null" description:"岗位名称"`
-	NickName string `orm:"column(nick_name);size(255);null"`
-	Sex      string `orm:"column(sex);size(255);null"`
+	Id          int64      `json:"id" orm:"column(id);auto" description:"ID"`
+	Avatar      string     `json:"avatar" orm:"column(avatar);size(200);null" description:"头像"`
+	Email       string     `json:"email" orm:"column(email);size(255);null" description:"邮箱"`
+	Enabled     int8       `json:"enabled" orm:"column(enabled);null" description:"状态：1启用、0禁用"`
+	Password    string     `json:"password" orm:"column(password);size(255);null" description:"密码"`
+	Username    string     `json:"username" orm:"column(username);size(255);null"  description:"用户名"`
+	Phone       string     `json:"phone" orm:"column(phone);size(255);null" description:"手机号码"`
+	NickName    string     `json:"nickName" orm:"column(nick_name);size(255);null"`
+	Sex         string     `json:"sex" orm:"column(sex);size(255);null"`
+	Roles       []*SysRole `json:"roles" orm:"rel(m2m);rel_through(cjapi/models.SysUsersRoles)"`
+	Depts       *SysDept   `json:"dept" orm:"column(dept_id);rel(one)"`
+	Permissions []string   `json:"permissions" orm:"-"`
+	RoleIds     []int64    `json:"roleIds" orm:"-"`
 	BaseModel
 }
 
@@ -37,8 +39,13 @@ func GetUserByUsername(name string) (v *SysUser, err error) {
 	o := orm.NewOrm()
 	user := &SysUser{}
 	err = o.QueryTable(new(SysUser)).Filter("username", name).RelatedSel().One(user)
+	if _, err = o.LoadRelated(user, "Roles"); err != nil {
+		return nil, err
+	}
 	if err == nil {
-		return user, err
+		permissions, _ := GetPermissionsByUserId(user.Id)
+		user.Permissions = permissions
+		return user, nil
 	}
 
 	return nil, err
@@ -62,6 +69,30 @@ func GetSysUserById(id int64) (v *SysUser, err error) {
 		return v, nil
 	}
 	return nil, err
+}
+
+func GetPermissionsByUserId(userId int64) ([]string, error) {
+	o := orm.NewOrm()
+	var roles []SysRole
+	_, err := o.Raw("SELECT r.* FROM sys_role r, sys_users_roles u "+
+		"WHERE r.id = u.sys_role_id AND u.sys_user_id = ?", userId).QueryRows(&roles)
+	for k, _ := range roles {
+		_, err = o.LoadRelated(&roles[k], "Menus")
+	}
+
+	var permissions []string
+
+	for _, v := range roles {
+		menus := v.Menus
+		for _, m := range menus {
+			if m.Permission == "" {
+				continue
+			}
+			permissions = append(permissions, m.Permission)
+		}
+	}
+
+	return permissions, err
 }
 
 // GetAllSysUser retrieves all SysUser matches certain condition. Returns empty list if

@@ -25,6 +25,51 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysDeptController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysDeptController"],
+		beego.ControllerComments{
+			Method:           "Post",
+			Router:           "/",
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysDeptController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysDeptController"],
+		beego.ControllerComments{
+			Method:           "GetAll",
+			Router:           "/",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysDeptController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysDeptController"],
+		beego.ControllerComments{
+			Method:           "GetOne",
+			Router:           "/:id",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysDeptController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysDeptController"],
+		beego.ControllerComments{
+			Method:           "Put",
+			Router:           "/:id",
+			AllowHTTPMethods: []string{"put"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysDeptController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysDeptController"],
+		beego.ControllerComments{
+			Method:           "Delete",
+			Router:           "/:id",
+			AllowHTTPMethods: []string{"delete"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["cjapi/controllers/admin:SysLogController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysLogController"],
 		beego.ControllerComments{
 			Method:           "Post",
@@ -115,6 +160,69 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysMenuController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysMenuController"],
+		beego.ControllerComments{
+			Method:           "Nav",
+			Router:           "/nav",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysMenuController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysMenuController"],
+		beego.ControllerComments{
+			Method:           "GetTree",
+			Router:           "/tree",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysRoleController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysRoleController"],
+		beego.ControllerComments{
+			Method:           "Post",
+			Router:           "/",
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysRoleController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysRoleController"],
+		beego.ControllerComments{
+			Method:           "GetAll",
+			Router:           "/",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysRoleController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysRoleController"],
+		beego.ControllerComments{
+			Method:           "GetOne",
+			Router:           "/:id",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysRoleController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysRoleController"],
+		beego.ControllerComments{
+			Method:           "Put",
+			Router:           "/:id",
+			AllowHTTPMethods: []string{"put"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysRoleController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysRoleController"],
+		beego.ControllerComments{
+			Method:           "Delete",
+			Router:           "/:id",
+			AllowHTTPMethods: []string{"delete"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["cjapi/controllers/admin:SysUserController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysUserController"],
 		beego.ControllerComments{
 			Method:           "Post",
@@ -156,6 +264,24 @@ func init() {
 			Method:           "Delete",
 			Router:           "/:id",
 			AllowHTTPMethods: []string{"delete"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:SysUserController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:SysUserController"],
+		beego.ControllerComments{
+			Method:           "Welcome",
+			Router:           "/welcome",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/common:CommonController"] = append(beego.GlobalControllerRouter["cjapi/controllers/common:CommonController"],
+		beego.ControllerComments{
+			Method:           "Upload",
+			Router:           "/upload",
+			AllowHTTPMethods: []string{"post"},
 			MethodParams:     param.Make(),
 			Filters:          nil,
 			Params:           nil})

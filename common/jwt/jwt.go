@@ -62,6 +62,8 @@ func GenerateToken(m *models.SysUser, d time.Duration) (*vo.LoginVo, error) {
 	loginVO.Token = tokenString
 	loginVO.ExpireAt = stdClaims.ExpiresAt
 	loginVO.User = m
+	loginVO.Permissions = m.Permissions
+	loginVO.Roles = m.Roles
 	return loginVO, err
 }
 
