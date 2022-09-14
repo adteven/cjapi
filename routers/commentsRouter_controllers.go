@@ -277,6 +277,60 @@ func init() {
 			Filters:          nil,
 			Params:           nil})
 
+	beego.GlobalControllerRouter["cjapi/controllers/admin:TbJishuiAreaController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:TbJishuiAreaController"],
+		beego.ControllerComments{
+			Method:           "Post",
+			Router:           "/",
+			AllowHTTPMethods: []string{"post"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:TbJishuiAreaController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:TbJishuiAreaController"],
+		beego.ControllerComments{
+			Method:           "GetAll",
+			Router:           "/",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:TbJishuiAreaController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:TbJishuiAreaController"],
+		beego.ControllerComments{
+			Method:           "GetOne",
+			Router:           "/:id",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:TbJishuiAreaController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:TbJishuiAreaController"],
+		beego.ControllerComments{
+			Method:           "Put",
+			Router:           "/:id",
+			AllowHTTPMethods: []string{"put"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:TbJishuiAreaController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:TbJishuiAreaController"],
+		beego.ControllerComments{
+			Method:           "Delete",
+			Router:           "/:id",
+			AllowHTTPMethods: []string{"delete"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
+	beego.GlobalControllerRouter["cjapi/controllers/admin:TbJishuiAreaController"] = append(beego.GlobalControllerRouter["cjapi/controllers/admin:TbJishuiAreaController"],
+		beego.ControllerComments{
+			Method:           "GetPage",
+			Router:           "/page",
+			AllowHTTPMethods: []string{"get"},
+			MethodParams:     param.Make(),
+			Filters:          nil,
+			Params:           nil})
+
 	beego.GlobalControllerRouter["cjapi/controllers/common:CommonController"] = append(beego.GlobalControllerRouter["cjapi/controllers/common:CommonController"],
 		beego.ControllerComments{
 			Method:           "Upload",

@@ -9,6 +9,7 @@ package routers
 
 import (
 	"cjapi/controllers/admin"
+	"cjapi/controllers/common"
 	"cjapi/filter"
 	beego "github.com/beego/beego/v2/server/web"
 )
@@ -19,6 +20,16 @@ func init() {
 		beego.NSNamespace("/auth",
 			beego.NSInclude(
 				&admin.AuthControler{},
+			),
+		),
+		beego.NSNamespace("/common",
+			beego.NSInclude(
+				&common.CommonController{},
+			),
+		),
+		beego.NSNamespace("/jishui",
+			beego.NSInclude(
+				&admin.TbJishuiAreaController{},
 			),
 		),
 		beego.NSNamespace("/admin",
