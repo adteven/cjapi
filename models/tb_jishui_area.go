@@ -44,7 +44,7 @@ func GetAllArea(base dto.BasePage, query ...interface{}) (int, []vo.JiShuiAreaVo
 		condition = ""
 	)
 	if base.Blurry != "" {
-		condition = " and name= '" + base.Blurry + "'"
+		condition = " and name like '%" + base.Blurry + "%'"
 	}
 	if len(query) > 0 {
 		groupId := query[0].(int64)
