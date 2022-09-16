@@ -57,6 +57,16 @@ func (c *BaseController) Fail(msg string, status int) {
 	c.ServeJSON()
 }
 
+func (c *BaseController) FailClient(msg string) {
+	c.Data["json"] = ErrMsg(msg, 400)
+	c.ServeJSON()
+}
+
+func (c *BaseController) FailInternal(msg string) {
+	c.Data["json"] = ErrMsg(msg, 500)
+	c.ServeJSON()
+}
+
 func ErrMsg(msg string, status ...int) Result {
 	var r Result
 	if len(status) > 0 {
@@ -85,7 +95,6 @@ func ErrData(msg error, status ...int) Result {
 
 func SuccessData(data any) Result {
 	var r Result
-
 	r.Status = 200
 	r.Msg = "ok"
 	r.Data = data

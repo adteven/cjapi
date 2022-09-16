@@ -3,80 +3,54 @@ package admin
 import (
 	"cjapi/controllers"
 	"cjapi/models"
-	"cjapi/models/dto"
-	"cjapi/models/vo"
 	"encoding/json"
 	"errors"
 	"strings"
 )
 
-// TbJishuiAreaController operations for TbJishuiArea
-type TbJishuiAreaController struct {
+// XzAreaDetailController operations for XzAreaDetail
+type XzAreaDetailController struct {
 	controllers.BaseController
 }
 
 // URLMapping ...
-func (c *TbJishuiAreaController) URLMapping() {
-	c.Mapping("Index", c.GetIndex)
+func (c *XzAreaDetailController) URLMapping() {
 	c.Mapping("Post", c.Post)
 	c.Mapping("GetOne", c.GetOne)
 	c.Mapping("GetAll", c.GetAll)
-	c.Mapping("GetPage", c.GetPage)
 	c.Mapping("Put", c.Put)
 	c.Mapping("Delete", c.Delete)
 }
 
 // Post ...
 // @Title Post
-// @Description create TbJishuiArea
-// @Param	body		body 	models.TbJishuiArea	true		"body for TbJishuiArea content"
-// @Success 201 {int} models.TbJishuiArea
+// @Description create XzAreaDetail
+// @Param	body		body 	models.XzAreaDetail	true		"body for XzAreaDetail content"
+// @Success 201 {int} models.XzAreaDetail
 // @Failure 403 body is empty
 // @router / [post]
-func (c *TbJishuiAreaController) Post() {
-	var v dto.JiShuiAreaDto
+func (c *XzAreaDetailController) Post() {
+	var v models.XzAreaDetail
 	json.Unmarshal(c.Ctx.Input.RequestBody, &v)
 	c.Valid(v)
-	_, e := models.AddJiShuiArea(&v)
-	if e != nil {
-		c.Fail(e.Error(), 502)
+	if _, err := models.AddXzAreaDetail(&v); err != nil {
+		c.Fail(err.Error(), 503)
 	}
-	c.Ok("操作成功")
-}
-
-// @Title 积水点列表
-// @Description 积水点分页列表
-// @Success 200 {object} app.Response
-// @router /page [get]
-func (c *TbJishuiAreaController) GetPage() {
-	total, list := models.GetAllArea(c.GetParams())
-	c.Ok(vo.ResultList{Data: list, Total: total})
-}
-
-// @Title 首页配置信息
-// @Description 首页配置信息
-// @Success 200 {object} app.Response
-// @router /index [get]
-func (c *TbJishuiAreaController) GetIndex() {
-	tj, _ := models.GetTbJishuiTjById(1)
-	var config map[string]interface{}
-	config = make(map[string]interface{})
-	config["number"] = tj.Number
-	c.Ok(config)
+	c.Ok(v)
 }
 
 // GetOne ...
 // @Title Get One
-// @Description get TbJishuiArea by id
+// @Description get XzAreaDetail by id
 // @Param	id		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.TbJishuiArea
+// @Success 200 {object} models.XzAreaDetail
 // @Failure 403 :id is empty
 // @router /:id [get]
-func (c *TbJishuiAreaController) GetOne() {
-	id, _ := c.GetInt64("id")
-	v, err := models.GetJiShuiAreaById(id)
+func (c *XzAreaDetailController) GetOne() {
+	id, _ := c.GetInt64(":id")
+	v, err := models.GetXzAreaDetailById(id)
 	if err != nil {
-		c.Fail(err.Error(), 403)
+		c.FailClient(err.Error())
 		return
 	}
 	c.Ok(v)
@@ -84,17 +58,17 @@ func (c *TbJishuiAreaController) GetOne() {
 
 // GetAll ...
 // @Title Get All
-// @Description get TbJishuiArea
+// @Description get XzAreaDetail
 // @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
 // @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
 // @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
 // @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
 // @Param	offset	query	string	false	"Start position of result set. Must be an integer"
-// @Success 200 {object} models.TbJishuiArea
+// @Success 200 {object} models.XzAreaDetail
 // @Failure 403
 // @router / [get]
-func (c *TbJishuiAreaController) GetAll() {
+func (c *XzAreaDetailController) GetAll() {
 	var fields []string
 	var sortby []string
 	var order []string
@@ -136,7 +110,7 @@ func (c *TbJishuiAreaController) GetAll() {
 		}
 	}
 
-	l, err := models.GetAllJiShuiArea(query, fields, sortby, order, offset, limit)
+	l, err := models.GetAllXzAreaDetail(query, fields, sortby, order, offset, limit)
 	if err != nil {
 		c.Data["json"] = err.Error()
 	} else {
@@ -147,41 +121,34 @@ func (c *TbJishuiAreaController) GetAll() {
 
 // Put ...
 // @Title Put
-// @Description update the TbJishuiArea
+// @Description update the XzAreaDetail
 // @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.TbJishuiArea	true		"body for TbJishuiArea content"
-// @Success 200 {object} models.TbJishuiArea
+// @Param	body		body 	models.XzAreaDetail	true		"body for XzAreaDetail content"
+// @Success 200 {object} models.XzAreaDetail
 // @Failure 403 :id is not int
-// @router / [put]
-func (c *TbJishuiAreaController) Put() {
-	var v dto.JiShuiAreaDto
-	json.Unmarshal(c.Ctx.Input.RequestBody, &v)
-	c.Valid(v)
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if err := models.UpdateJiShuiAreaById(&v); err == nil {
-			c.Data["json"] = "OK"
-		} else {
-			c.Data["json"] = err.Error()
-		}
-	} else {
-		c.Data["json"] = err.Error()
+// @router /:id [put]
+func (c *XzAreaDetailController) Put() {
+	id, _ := c.GetInt64(":id")
+	v := models.XzAreaDetail{Id: id}
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err != nil {
+		c.FailInternal(err.Error())
+		return
 	}
-	c.ServeJSON()
+	c.Ok(v)
 }
 
 // Delete ...
 // @Title Delete
-// @Description delete the TbJishuiArea
+// @Description delete the XzAreaDetail
 // @Param	id		path 	string	true		"The id you want to delete"
 // @Success 200 {string} delete success!
 // @Failure 403 id is empty
 // @router /:id [delete]
-func (c *TbJishuiAreaController) Delete() {
+func (c *XzAreaDetailController) Delete() {
 	id, _ := c.GetInt64(":id")
-	if err := models.DeleteJiShuiArea(id); err == nil {
-		c.Data["json"] = "OK"
-	} else {
-		c.Data["json"] = err.Error()
+	if err := models.DeleteXzAreaDetail(id); err != nil {
+		c.FailClient(err.Error())
+		return
 	}
-	c.ServeJSON()
+	c.Ok(id)
 }
