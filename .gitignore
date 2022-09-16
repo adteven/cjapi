@@ -25,3 +25,4 @@ public/resource/pub_upload/
 data/dataBak
 cjapi.tar.gz
 /cjapi
+go.sum
