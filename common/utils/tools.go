@@ -5,10 +5,11 @@ import (
 	"github.com/beego/beego/v2/core/logs"
 	"golang.org/x/crypto/bcrypt"
 	"reflect"
+	"regexp"
 	"strings"
 )
 
-//加密
+// 加密
 func HashAndSalt(pwd []byte) string {
 	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
 	if err != nil {
@@ -17,7 +18,7 @@ func HashAndSalt(pwd []byte) string {
 	return string(hash)
 }
 
-//密码验证
+// 密码验证
 func ComparePwd(hashPwd string, plainPwd []byte) bool {
 	logs.Info(hashPwd)
 	byteHash := []byte(hashPwd)
@@ -30,7 +31,7 @@ func ComparePwd(hashPwd string, plainPwd []byte) bool {
 	return true
 }
 
-//判断array contain item
+// 判断array contain item
 func Contains(array interface{}, val interface{}) (index int) {
 	index = -1
 	switch reflect.TypeOf(array).Kind() {
@@ -48,8 +49,8 @@ func Contains(array interface{}, val interface{}) (index int) {
 	return
 }
 
-//[a] -> a -> a
-//[a b c] -> a b c -> a,b,c
+// [a] -> a -> a
+// [a b c] -> a b c -> a,b,c
 func Convert(array interface{}) string {
 	return strings.Replace(strings.Trim(fmt.Sprint(array), "[]"), " ", ",", -1)
 }
@@ -94,4 +95,14 @@ func GetSum(m []int) int {
 		sum = sum + v
 	}
 	return sum
+}
+
+func RegJsonData(Data []byte) []byte {
+
+	reg := regexp.MustCompile("([a-zA-Z]\\w*):")
+	regStr := reg.ReplaceAllString(string(Data), `"$1":`)
+	//单引号转装双引号
+	newStr := strings.Replace(regStr, `'`, `"`, -1)
+
+	return []byte(newStr)
 }

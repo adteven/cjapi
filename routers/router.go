@@ -8,6 +8,7 @@
 package routers
 
 import (
+	"cjapi/controllers"
 	"cjapi/controllers/admin"
 	"cjapi/filter"
 	beego "github.com/beego/beego/v2/server/web"
@@ -16,6 +17,11 @@ import (
 func init() {
 	af := filter.AuthFilter{}
 	ns := beego.NewNamespace("/v1",
+		beego.NSNamespace("/demo",
+			beego.NSInclude(
+				&controllers.ObjectController{},
+			),
+		),
 		beego.NSNamespace("/auth",
 			beego.NSInclude(
 				&admin.AuthControler{},

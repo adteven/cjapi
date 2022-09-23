@@ -4,13 +4,17 @@ import (
 	"cjapi/common"
 	"cjapi/models"
 	"cjapi/models/vo"
+	gConext "context"
+	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/beego/beego/v2/client/cache"
 	"github.com/beego/beego/v2/core/logs"
 	beego "github.com/beego/beego/v2/server/web"
 	"github.com/beego/beego/v2/server/web/context"
 	"github.com/golang-jwt/jwt/v4"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -21,6 +25,7 @@ type userStdClaims struct {
 
 var (
 	verifyKey  string
+	bm         cache.Cache
 	ErrAbsent  = "token absent"  // 令牌不存在
 	ErrInvalid = "token invalid" // 令牌无效
 	ErrExpired = "token expired" // 令牌过期
@@ -30,7 +35,12 @@ var (
 const bearerLength = len("Bearer ")
 
 func init() {
+	var err error
 	verifyKey, _ = beego.AppConfig.String("jwt_token")
+	bm, err = cache.NewCache("memory", `{"interval":60}`)
+	if err != nil {
+		logs.Error(err)
+	}
 }
 
 func GenerateToken(m *models.SysUser, d time.Duration) (*vo.LoginVo, error) {
@@ -58,6 +68,11 @@ func GenerateToken(m *models.SysUser, d time.Duration) (*vo.LoginVo, error) {
 	if err != nil {
 		logs.Info(err)
 	}
+	//set redis
+	var key = common.REDIS_PREFIX_AUTH + tokenString
+	json, _ := json.Marshal(m)
+	bm.Put(gConext.TODO(), key, string(json), d)
+
 	var loginVO = new(vo.LoginVo)
 	loginVO.Token = tokenString
 	loginVO.ExpireAt = stdClaims.ExpiresAt
@@ -91,7 +106,7 @@ func ValidateToken(tokenString string) (*vo.JwtUser, error) {
 
 }
 
-//返回id
+// 返回id
 func GetAdminUserId(c *context.BeegoInput) (int64, error) {
 	u := c.GetData(common.ContextKeyUserObj)
 	logs.Info(u)
@@ -103,7 +118,7 @@ func GetAdminUserId(c *context.BeegoInput) (int64, error) {
 	return 0, errors.New("can't convert to user struct")
 }
 
-//返回user
+// 返回user
 func GetAdminUser(c *context.BeegoInput) (*vo.JwtUser, error) {
 	u := c.GetData(common.ContextKeyUserObj)
 	user, ok := u.(*vo.JwtUser)
@@ -114,5 +129,8 @@ func GetAdminUser(c *context.BeegoInput) (*vo.JwtUser, error) {
 }
 
 func RemoveUser(c *context.BeegoInput) error {
-	return nil
+	mytoken := c.Header("Authorization")
+	token := strings.TrimSpace(mytoken[bearerLength:])
+	var key = common.REDIS_PREFIX_AUTH + token
+	return bm.Delete(gConext.TODO(), key)
 }

@@ -1,15 +1,15 @@
 package controllers
 
 import (
+	"cjapi/common/utils"
 	"cjapi/models"
 	"encoding/json"
-
-	beego "github.com/beego/beego/v2/server/web"
+	"github.com/beego/beego/v2/core/logs"
 )
 
 // Operations about object
 type ObjectController struct {
-	beego.Controller
+	BaseController
 }
 
 // @Title Create
@@ -51,9 +51,31 @@ func (o *ObjectController) Get() {
 // @Failure 403 :objectId is empty
 // @router / [get]
 func (o *ObjectController) GetAll() {
-	obs := models.GetAll()
-	o.Data["json"] = obs
-	o.ServeJSON()
+	//obs := models.GetAll()
+	var jsonStr = `{
+    id: '4291d7da9005377ec9aec4a71ea837f',
+    name: '天野远子',
+    username: 'admin',
+    password: '',
+    avatar: '/avatar2.jpg',
+    status: 1,
+    telephone: '',
+    lastLoginIp: '27.154.74.117',
+    lastLoginTime: 1534837621348,
+    creatorId: 'admin',
+    createTime: 1497160610259,
+    merchantCode: 'TLif2btpzg079h15bk',
+    deleted: 0,
+    roleId: 'admin',
+    role: {}
+  }`
+
+	var m = make(map[string]interface{})
+	if err := json.Unmarshal(utils.RegJsonData([]byte(jsonStr)), &m); err != nil {
+		logs.Error("err:%v", err)
+	}
+	logs.Info(m)
+	o.Ok(m)
 }
 
 // @Title Update
